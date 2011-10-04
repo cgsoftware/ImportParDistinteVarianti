@@ -144,7 +144,11 @@ class product_template(osv.osv):
                         #import pdb;pdb.set_trace()
                         nome = riga[0] + "-" + riga[1]    
                         BomVariantObj = self.pool.get('bom.variant')
-                        Template = self.pool.get('product.template').search(cr, uid, [('codice_template', '=', riga[2])])[0]
+                        Template = self.pool.get('product.template').search(cr, uid, [('codice_template', '=', riga[2])])
+                        if Template:
+                            Template = Template[0]
+                        else:
+                            errori = errori + 'Template  ' + riga[2] + ' NON TROVATO ! \n'
                         ProductObj = self.pool.get('product.product') 
                         param = [('default_code', '=', riga[4].strip())]  
                         Product_id = ProductObj.search(cr, uid, param)    
@@ -208,6 +212,7 @@ class product_template(osv.osv):
     
     def run_auto_import_matprime(self, cr, uid, automatic=False, use_new_cursor=False, context=None):
       pool = pooler.get_pool(cr.dbname)  
+      res = {}
       #import pdb;pdb.set_trace()
       testo_log = """Inizio procedura di Aggiornamento/Inserimento Materie Prime su Template e Varianti """ + time.ctime() + '\n'
       percorso = '/home/openerp/filecsv'
