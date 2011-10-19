@@ -89,7 +89,7 @@ class product_template(osv.osv):
                         param = [('default_code', '=', riga[2].strip())]  
                         Product_id = ProductObj.search(cr, uid, param)    
                         BomVariantLineObj = self.pool.get('bom.variant.line')
-                        param = [('name', '=', nome)]
+                        param = [('name', '=', nome),('template_material_id', '=', None)]
                         idbomvariant = BomVariantObj.search(cr, uid, param)
                         if riga[3] == 'Q':
                             tipo = 'peso'
